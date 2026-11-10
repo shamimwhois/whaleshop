@@ -24,20 +24,20 @@
         "guzzlehttp/guzzle": "^7.2",
         "iyzico/iyzipay-php": "^2.0",
         "karim007/laravel-bkash-tokenize": "^2.2",
-        "kingflamez/laravelrave": "dev-master",
+        "kingflamez/laravelrave": "*",
         "laravel/ai": "^1.3",
-        "laravel/framework": "^12.0",
+        "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.2",
         "laravel/socialite": "^5.24",
-        "laravel/tinker": "^2.10.1",
+        "laravel/tinker": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.29",
         "maatwebsite/excel": "*",
-        "mollie/laravel-mollie": "^3.0",
+        "mollie/laravel-mollie": "^5.0",
         "myfatoorah/library": "^2.2",
         "obydul/laraskrill": "*",
         "openai-php/client": "^0.19.1",
         "picqer/php-barcode-generator": "^2.4",
-        "pragmarx/countries": "1.0.1",
+        "pragmarx/countries": "^1.0.2",
         "razorpay/razorpay": "2.*",
         "santigraviano/laravel-mercadopago": "^1.0",
         "spatie/laravel-medialibrary": "^11.0.0",
@@ -50,14 +50,14 @@
         "zfhassaan/easypaisa": "^1.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.9",
+        "barryvdh/laravel-debugbar": "^4.4",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.3"
+        "nunomaduro/collision": "^8.9.5",
+        "phpunit/phpunit": "^12.5"
     },
     "autoload": {
         "psr-4": {
@@ -108,6 +108,15 @@
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ]
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/kingflamez/laravelrave",
+            "options": {
+                "symlink": false
+            }
+        }
+    ],
     "extra": {
         "laravel": {
             "dont-discover": [

@@ -1,0 +1,48 @@
+{
+    "name": "kingflamez/laravelrave",
+    "version": "4.2.1",
+    "description": "A Laravel Package for Flutterwave Rave (locally vendored fork, patched for Laravel 13 / PHP 8.5)",
+    "keywords": [
+        "php",
+        "github",
+        "payments",
+        "laravel",
+        "open source",
+        "laravel 5",
+        "rave",
+        "flutterwave",
+        "kingflamez",
+        "ravepay.co",
+        "Flutterwave Rave"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kingflamez",
+            "email": "flamekeed@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.2|^8.3|^8.4|^8.5",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/Rave.php"
+        ],
+        "psr-4": {
+            "KingFlamez\\Rave\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "KingFlamez\\Rave\\RaveServiceProvider"
+            ],
+            "aliases": {
+                "Rave": "KingFlamez\\Rave\\Facades\\Rave"
+            }
+        }
+    }
+}
