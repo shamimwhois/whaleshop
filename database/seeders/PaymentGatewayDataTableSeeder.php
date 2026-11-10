@@ -27,7 +27,7 @@ class PaymentGatewayDataTableSeeder extends Seeder
                 ],
                 [
                     "option" => 'paypal_client_secret',
-                    "value"  => env('PAYPAL_CLIENT_SECRET', '')
+                    "value"  => ''
                 ],
                 [
                     "option" => 'paypal_mode',
@@ -49,7 +49,7 @@ class PaymentGatewayDataTableSeeder extends Seeder
                 ],
                 [
                     "option" => 'stripe_secret',
-                    "value"  => env('STRIPE_SECRET', '')
+                    "value"  => ''
                 ],
                 [
                     "option" => 'stripe_mode',
@@ -71,7 +71,7 @@ class PaymentGatewayDataTableSeeder extends Seeder
                 ],
                 [
                     "option" => 'flutterwave_secret_key',
-                    "value"  => env('FLUTTERWAVE_SECRET_KEY', '')
+                    "value"  => ''
                 ],
                 [
                     "option" => 'flutterwave_mode',
@@ -93,7 +93,7 @@ class PaymentGatewayDataTableSeeder extends Seeder
                 ],
                 [
                     "option" => 'paystack_secret_key',
-                    "value"  => env('PAYSTACK_SECRET_KEY', '')
+                    "value"  => ''
                 ],
                 [
                     "option" => 'paystack_payment_url',
@@ -537,6 +537,21 @@ class PaymentGatewayDataTableSeeder extends Seeder
     {
         $envService = new EnvEditor();
         if ($envService->getValue('DEMO')) {
+            $secretKeys = [
+                'paypal_client_secret'    => env('PAYPAL_CLIENT_SECRET', ''),
+                'stripe_secret'           => env('STRIPE_SECRET', ''),
+                'flutterwave_secret_key'  => env('FLUTTERWAVE_SECRET_KEY', ''),
+                'paystack_secret_key'     => env('PAYSTACK_SECRET_KEY', ''),
+            ];
+
+            foreach ($this->gateways as $gatewayIndex => $gateway) {
+                foreach ($gateway['options'] as $optionIndex => $option) {
+                    if (array_key_exists($option['option'], $secretKeys)) {
+                        $this->gateways[$gatewayIndex]['options'][$optionIndex]['value'] = $secretKeys[$option['option']];
+                    }
+                }
+            }
+
             foreach ($this->gateways as $gateway) {
                 $payment = PaymentGateway::where(['slug' => $gateway['slug']])->first();
                 if ($payment) {

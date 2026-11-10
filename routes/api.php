@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdministratorAddressController;
 use App\Http\Controllers\Admin\AdministratorController;
 use App\Http\Controllers\Admin\AiAgentController;
 use App\Http\Controllers\Admin\AiController;
+use App\Http\Controllers\Admin\CommerceAiController;
 use App\Http\Controllers\Admin\AnalyticController;
 use App\Http\Controllers\Admin\AnalyticSectionController;
 use App\Http\Controllers\Admin\BarcodeController;
@@ -693,6 +694,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum'])->group(func
         Route::post('/chat', [AiController::class, 'chat']);
         Route::post('/chat-response/{aiChatHistory}', [AiController::class, 'chatResponse']);
         Route::get('/chat-history', [AiController::class, 'chatHistory']);;
+    });
+
+    Route::prefix('ai-commerce')->name('ai-commerce.')->group(function () {
+        Route::get('/status', [CommerceAiController::class, 'status']);
+        Route::post('/chat', [CommerceAiController::class, 'chat']);
+        Route::post('/stream', [CommerceAiController::class, 'stream']);
     });
 
     Route::prefix('reviews')->name('reviews.')->group(function () {

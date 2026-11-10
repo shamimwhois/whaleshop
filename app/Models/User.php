@@ -25,6 +25,7 @@ class User extends Authenticatable implements HasMedia
     use Notifiable;
     use SoftDeletes;
     use HasMediaUrlFallback;
+    use \Laravel\Ai\Concerns\HasConversations;
 
     /**
      * The attributes that are mass assignable.
