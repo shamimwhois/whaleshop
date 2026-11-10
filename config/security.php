@@ -198,6 +198,11 @@ return [
      */
     'scan'        => [
         'paths'    => ['app', 'config', 'routes', 'bootstrap'],
+        // These files contain the scanner's own pattern descriptions.
+        'exclude'  => [
+            'app/Console/Commands/SecurityScanCommand.php',
+            'config/security.php',
+        ],
         'patterns' => [
             'env(\'APP_DEBUG\') outside config' => 'env\(\s*[\'"]APP_DEBUG',
             'env() call in application code'    => 'env\(\s*[\'"]',

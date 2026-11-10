@@ -24,6 +24,10 @@ class SecurityScanCommand extends Command
     {
         $paths = (array) config('security.scan.paths', ['app', 'config', 'routes', 'bootstrap']);
         $patterns = (array) config('security.scan.patterns', []);
+        $excluded = array_map(
+            static fn (string $p): string => str_replace('\\', '/', $p),
+            (array) config('security.scan.exclude', [])
+        );
         $findings = [];
 
         foreach ($paths as $relative) {
@@ -40,6 +44,9 @@ class SecurityScanCommand extends Command
                 }
 
                 $relativePath = str_replace('\\', '/', ltrim(str_replace(base_path(), '', $file->getPathname()), '/\\'));
+                if (in_array($relativePath, $excluded, true)) {
+                    continue;
+                }
                 $isConfig = str_starts_with($relativePath, 'config/');
                 $lines = @file($file->getPathname(), FILE_IGNORE_NEW_LINES) ?: [];
 
