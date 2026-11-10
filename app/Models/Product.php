@@ -17,7 +17,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Product extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, SoftDeletes, HasMediaUrlFallback;
+    use HasFactory, InteractsWithMedia, SoftDeletes, HasMediaUrlFallback, \App\Models\Concerns\HasAiEmbeddings;
 
     protected $table = "products";
     protected $fillable = [
@@ -158,6 +158,26 @@ class Product extends Model implements HasMedia
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(ProductCategory::class, 'product_category_id', 'id');
+    }
+
+    /**
+     * Build the searchable text embedded for RAG retrieval.
+     *
+     * Combines identity, taxonomy and copy into a single block so a natural
+     * language query such as "iphone battery replacement" matches on any of
+     * those facets.
+     */
+    public function toEmbeddableText(): string
+    {
+        $parts = array_filter([
+            $this->name,
+            $this->sku ? 'SKU: ' . $this->sku : null,
+            $this->category?->name ? 'Category: ' . $this->category->name : null,
+            $this->brand?->name ? 'Brand: ' . $this->brand->name : null,
+            $this->description,
+        ], static fn ($value): bool => is_string($value) && trim($value) !== '');
+
+        return trim(strip_tags(implode("\n\n", $parts)));
     }
 
     public function brand(): \Illuminate\Database\Eloquent\Relations\BelongsTo

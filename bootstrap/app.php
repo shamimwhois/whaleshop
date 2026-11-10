@@ -6,6 +6,8 @@ use App\Http\Middleware\localization;
 use Illuminate\Foundation\Application;
 use Illuminate\Database\QueryException;
 use App\Http\Middleware\ApiKeyMiddleware;
+use App\Http\Middleware\SecurityHeaders;
+use App\Http\Middleware\SecurityMonitoring;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Auth\Middleware\RequirePassword;
@@ -29,12 +31,32 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
-        api: __DIR__.'/../routes/api.php',
+        api: [
+            __DIR__.'/../routes/api.php',
+            __DIR__.'/../routes/security.php',
+        ],
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
+    ->withCommands([
+        \App\Console\Commands\SecurityReportCommand::class,
+        \App\Console\Commands\SecurityIpCommand::class,
+        \App\Console\Commands\SecurityPruneCommand::class,
+        \App\Console\Commands\SecurityScanCommand::class,
+        \App\Console\Commands\AiEmbedCommand::class,
+    ])
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->append([]);
+        // Global IDS gate + baseline browser security headers. These run for
+        // web AND api requests, including installer and payment callbacks.
+        $middleware->append([
+            SecurityMonitoring::class,
+            SecurityHeaders::class,
+        ]);
+
+        // Enable the API rate limiter (previously defined but never attached,
+        // which left every public auth/OTP endpoint unthrottled).
+        $middleware->throttleApi('api');
+
         $middleware->validateCsrfTokens(
             except: [
                 '/payment/sslcommerz/*',
@@ -59,6 +81,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'apiKey' => ApiKeyMiddleware::class,
             'localization' => localization::class,
             'installed' => Installed::class,
+            'securityConsole' => \App\Http\Middleware\EnsureSecurityConsoleAccess::class,
 
         ]);
     })
@@ -98,17 +121,20 @@ return Application::configure(basePath: dirname(__DIR__))
                 }
 
                 if ($e instanceof HttpException) {
+                    $status = $e->getStatusCode();
                     return response()->json([
                         'success' => false,
-                        'message' => $e->getMessage() ?: 'HTTP error.',
-                    ], $e->getStatusCode());
+                        // Never echo internal exception text for server errors.
+                        'message' => $status >= 500 ? 'HTTP error.' : ($e->getMessage() ?: 'HTTP error.'),
+                    ], $status);
                 }
 
                 if ($e instanceof QueryException) {
+                    // SQL and schema details must never reach the client, not
+                    // even when APP_DEBUG is on. Full detail stays in the log.
                     return response()->json([
                         'success' => false,
                         'message' => 'A database error occurred.',
-                        'error' => config('app.debug') ? $e->getMessage() : null,
                     ], 422);
                 }
             }

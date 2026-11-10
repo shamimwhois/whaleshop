@@ -118,6 +118,16 @@ return [
             'replace_placeholders' => true,
         ],
 
+        // Dedicated, append-only intrusion-detection audit trail. Kept out of
+        // laravel.log so application noise cannot bury security incidents.
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => env('SECURITY_LOG_LEVEL', 'debug'),
+            'days' => env('SECURITY_LOG_DAYS', 90),
+            'replace_placeholders' => true,
+        ],
+
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
