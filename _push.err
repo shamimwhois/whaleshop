@@ -1,0 +1,85 @@
+remote: error: GH013: Repository rule violations found for refs/heads/main.        
+remote: 
+remote: - GITHUB PUSH PROTECTION        
+remote:   —————————————————————————————————————————        
+remote:     Resolve the following violations before pushing again        
+remote: 
+remote:     - Push cannot contain secrets        
+remote: 
+remote:             
+remote:      (?) Learn how to resolve a blocked push        
+remote:      https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push        
+remote:             
+remote:             
+remote:       —— Google Cloud Service Account Credentials ——————————        
+remote:        locations:        
+remote:          - commit: 462e5597685dbf611e08075dd2492854e3a59d96        
+remote:            path: public/file/service-account-file.json:1        
+remote:             
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.        
+remote:        https://github.com/shamimwhois/whaleshop/security/secret-scanning/unblock-secret/3LuaO1LGT7gSpvf4wrKyQYK1HHN        
+remote:             
+remote:             
+remote:       —— Stripe Test API Secret Key ————————————————————————        
+remote:        locations:        
+remote:          - commit: 462e5597685dbf611e08075dd2492854e3a59d96        
+remote:            path: database/seeders/PaymentGatewayDataTableSeeder.php:52        
+remote:             
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.        
+remote:        https://github.com/shamimwhois/whaleshop/security/secret-scanning/unblock-secret/3LuaNzrWv1lHqi3VxHFlzGJdeP2        
+remote:             
+remote:             
+remote:       —— Flutterwave Test API Secret Key ———————————————————        
+remote:        locations:        
+remote:          - commit: 462e5597685dbf611e08075dd2492854e3a59d96        
+remote:            path: database/seeders/PaymentGatewayDataTableSeeder.php:74        
+remote:             
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.        
+remote:        https://github.com/shamimwhois/whaleshop/security/secret-scanning/unblock-secret/3LuaO0caC2037MvDstHYvQWvaxp        
+remote:             
+remote: 
+remote: 
+To https://github.com/shamimwhois/whaleshop.git
+ ! [remote rejected] main -> main (error: GH013: Repository rule violations found for refs/heads/main.
+
+- GITHUB PUSH PROTECTION
+  —————————————————————————————————————————
+    Resolve the following violations before pushing again
+
+    - Push cannot contain secrets
+
+    
+     (?) Learn how to resolve a blocked push
+     https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push
+    
+    
+      —— Google Cloud Service Account Credentials ——————————
+       locations:
+         - commit: 462e5597685dbf611e08075dd2492854e3a59d96
+           path: public/file/service-account-file.json:1
+    
+       (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+       https://github.com/shamimwhois/whaleshop/security/secret-scanning/unblock-secret/3LuaO1LGT7gSpvf4wrKyQYK1HHN
+    
+    
+      —— Stripe Test API Secret Key ————————————————————————
+       locations:
+         - commit: 462e5597685dbf611e08075dd2492854e3a59d96
+           path: database/seeders/PaymentGatewayDataTableSeeder.php:52
+    
+       (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+       https://github.com/shamimwhois/whaleshop/security/secret-scanning/unblock-secret/3LuaNzrWv1lHqi3VxHFlzGJdeP2
+    
+    
+      —— Flutterwave Test API Secret Key ———————————————————
+       locations:
+         - commit: 462e5597685dbf611e08075dd2492854e3a59d96
+           path: database/seeders/PaymentGatewayDataTableSeeder.php:74
+    
+       (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+       https://github.com/shamimwhois/whaleshop/security/secret-scanning/unblock-secret/3LuaO0caC2037MvDstHYvQWvaxp
+    
+
+
+)
+error: failed to push some refs to 'https://github.com/shamimwhois/whaleshop.git'
